@@ -32,14 +32,11 @@ Latest Version Android Studio
 
 ```
 ## PROGRAM:
-```
-/*
-Program to print the text “ExplicitIntent”.
-Developed by: MAHALINGA JEYANTH V
-Registeration Number : 212224220057
-*/
-```
-ACTIVITY MAIN.JAVA1:
+### Program to print the text “ExplicitIntent”.
+### Developed by: DIVYA PRIYA S
+### Registeration Number : 212225240037
+
+## MAINACTIVITY.JAVA:
 ```
 
 package com.example.explicitintent;
@@ -47,172 +44,177 @@ package com.example.explicitintent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import java.math.BigInteger;
 
 public class MainActivity extends AppCompatActivity {
-
-    EditText numberInput;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        numberInput = findViewById(R.id.numberInput);
+
+        // Get references to UI elements
+        final EditText inputField = findViewById(R.id.input_field);
+        Button factorialButton = findViewById(R.id.factorial_button);
+
+        // Set up the "Explicit Intent" button
+        factorialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the input number from the text field
+                int inputNumber = Integer.parseInt(inputField.getText().toString());
+
+                // Create an Intent to start the FactorialActivity
+                Intent explicitIntent = new Intent(MainActivity.this, MainActivity2.class);
+                // Pass the input number as an extra
+                explicitIntent.putExtra("input_number", inputNumber);
+
+                // Start the FactorialActivity
+                startActivity(explicitIntent);
+            }
+        });
     }
 
-    public void newsScreen(View view) {
-        String input = numberInput.getText().toString().trim();
 
-        if (input.isEmpty()) {
-            Toast.makeText(this, "Enter a number",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        try {
-            int n = Integer.parseInt(input);
-
-            if (n < 0 || n > 1000) {
-                Toast.makeText(this, "Enter a number from 0 to 1000",
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            BigInteger fact = BigInteger.ONE;
-
-            for (int i = 2; i <= n; i++) {
-                fact = fact.multiply(BigInteger.valueOf(i));
-            }
-
-            Intent intent = new Intent(
-                    MainActivity.this, MainActivity2.class);
-            intent.putExtra("RESULT", fact.toString());
-            startActivity(intent);
-
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid number",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
 }
 ```
-ACTIVITY MAIN.JAVA2:
+## MAINACTIVITY2.JAVA:
 ```
 package com.example.explicitintent;
+
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-
-public class MainActivity2 extends AppCompatActivity {
-
+import java.math.BigInteger;
+public class MainActivity2 extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity2);
 
-        TextView resultTextView =
-                findViewById(R.id.resultTextView);
+        // Get the input number from the Intent extra
+        int inputNumber = getIntent().getIntExtra("input_number", 0);
 
-        String result = getIntent().getStringExtra("RESULT");
-        resultTextView.setText(result);
+        // Calculate the factorial of the input number using BigInteger
+        BigInteger factorial = BigInteger.ONE;
+        for (int i = 2; i <= inputNumber; i++) {
+            factorial = factorial.multiply(BigInteger.valueOf(i));
+        }
+        // Display the factorial result in a TextView
+        TextView resultTextView = findViewById(R.id.resultText);
+        resultTextView.setText(
+                "Factorial of " + inputNumber + " is: " + factorial
+        );
     }
-
-    public void homeScreen(View view) {
-        Intent intent = new Intent(
-                MainActivity2.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+    public void back(View view) {
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
     }
 }
+
 ```
-ACTIVITY MAIN.XML1:
+## ACTIVITY MAIN.XML
 ```
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/factorial_calculator"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+    android:background="#EFF2F4"
+    tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/numberInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:importantForAutofill="no"
-        android:padding="16dp"
-        android:hint="@string/enter_a_number"
+        android:id="@+id/input_field"
+        android:layout_width="252dp"
+        android:layout_height="48dp"
+        android:hint="Enter a number"
         android:inputType="number"
-        android:gravity="center" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/factorial_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/calculate_factorial"
-        android:onClick="newsScreen" />
+        android:backgroundTint="#D26BDA"
+        android:text="FIND FACTORIAL"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_field" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="261dp"
+        android:layout_height="99dp"
+        android:text="FACTORIAL FINDER"
+        android:textAlignment="center"
+        android:textColor="#AE218F"
+        android:textSize="34sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/input_field"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.72" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 ```
-ACTIVITY MAIN.XML2:
+## ACTIVITY2.XML :
 ```
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp">
+    android:background="#EFF2F4"
+    tools:context=".MainActivity2">
 
     <TextView
+        android:id="@+id/resultText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/the_factorial_result_is"
-        android:textSize="22sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/resultTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/_0"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:padding="16dp" />
+        android:text="The Factorial is : "
+        android:textColor="#AE218F"
+        android:textSize="34sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.349" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/calculate_another"
-        android:onClick="homeScreen" />
+        android:id="@+id/button"
+        android:layout_width="122dp"
+        android:layout_height="65dp"
+        android:backgroundTint="#C362CA"
+        android:onClick="back"
+        android:text="BACK"
+        android:textColorLink="#C85A5A"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resultText" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 ```
 ## OUTPUT
-UI DESIGN PART 1:
-<img width="1920" height="1200" alt="Screenshot (46)" src="https://github.com/user-attachments/assets/92f046e8-df19-4cc2-9f52-266f4ec9e33c" />
 
-UI DESIGN PART 2:
-<img width="1920" height="1200" alt="Screenshot (47)" src="https://github.com/user-attachments/assets/c3e06f26-333e-4f8a-8da7-a48c13ac12c1" />
-
-ACTIVITY MAIN.JAVA:
-<img width="1920" height="1200" alt="Screenshot (48)" src="https://github.com/user-attachments/assets/5f1a7fc9-606a-4d1f-b417-dc71acb8a264" />
-
-<img width="1920" height="1200" alt="Screenshot (49)" src="https://github.com/user-attachments/assets/f6adefdb-ea9e-4809-991a-dbd002f8b961" />
-<img width="1920" height="1200" alt="Screenshot (50)" src="https://github.com/user-attachments/assets/98c1a901-bf1d-4f4a-bd49-bbb3dde77bac" />
+<img width="1907" height="1014" alt="image" src="https://github.com/user-attachments/assets/2ee415b4-d61f-496f-8e4b-ddf3466239db" />
+<img width="1907" height="1011" alt="image" src="https://github.com/user-attachments/assets/f4e88010-091d-4efb-9392-18b45a3fa338" />
 
 
 ## RESULT
