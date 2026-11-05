@@ -36,7 +36,7 @@ Latest Version Android Studio
 ### Developed by: DIVYA PRIYA S
 ### Registeration Number : 212225240037
 
-## MAINACTIVITY.JAVA:
+## MainActivity.JAVA:
 ```
 
 package com.example.explicitintent;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
 }
 ```
-## MAINACTIVITY2.JAVA:
+## MainActivity2.JAVA:
 ```
 package com.example.explicitintent;
 
@@ -117,7 +117,7 @@ public class MainActivity2 extends AppCompatActivity{
 }
 
 ```
-## ACTIVITY MAIN.XML
+## Activity_main.XML
 ```
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -169,7 +169,7 @@ public class MainActivity2 extends AppCompatActivity{
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
-## ACTIVITY2.XML :
+## Activity2.XML :
 ```
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
